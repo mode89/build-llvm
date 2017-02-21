@@ -2,6 +2,8 @@
 
 WORK_DIR=$(pwd)
 
+TARGET_TRIPLE=arm-linux-gnueabi
+
 LLVM_REPO=http://llvm.org/git/llvm.git
 LLVM_DIR=$WORK_DIR/llvm
 
@@ -52,6 +54,7 @@ function config_clang()
         -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
         -DLLVM_INCLUDE_TESTS=OFF \
         -DLLVM_INCLUDE_EXAMPLES=OFF \
+        -DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
         -DLLVM_TARGETS_TO_BUILD=ARM \
         -DLLVM_EXTERNAL_CLANG_SOURCE_DIR=$CLANG_DIR \
         $LLVM_DIR
