@@ -17,6 +17,7 @@ INSTALL_DIR=$WORK_DIR/install
 
 function clone_llvm()
 {
+    echo Cloning llvm ...
     git clone $LLVM_REPO $LLVM_DIR
     cd $LLVM_DIR
     git checkout release_39
@@ -24,6 +25,7 @@ function clone_llvm()
 
 function clone_clang()
 {
+    echo Cloning clang ...
     git clone $CLANG_REPO $CLANG_DIR
     cd $CLANG_DIR
     git checkout release_39
@@ -31,6 +33,7 @@ function clone_clang()
 
 function clean_clang()
 {
+    echo Cleaning clang ...
     if [ -d $CLANG_BUILD_DIR ]; then
         rm -r $CLANG_BUILD_DIR
     fi
@@ -38,6 +41,7 @@ function clean_clang()
 
 function config_clang()
 {
+    echo Configuring clang ...
     if [ ! -d $CLANG_BUILD_DIR ]; then
         mkdir $CLANG_BUILD_DIR
     fi
@@ -55,18 +59,21 @@ function config_clang()
 
 function build_clang()
 {
+    echo Building clang ...
     cd $CLANG_BUILD_DIR
     make -j9
 }
 
 function install_clang()
 {
+    echo Installing clang ...
     cd $CLANG_BUILD_DIR
     make install
 }
 
 function clone_libcxx()
 {
+    echo Cloning libcxx ...
     git clone $LIBCXX_REPO $LIBCXX_DIR
     cd $LIBCXX_DIR
     git checkout release_39
