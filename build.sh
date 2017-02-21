@@ -49,4 +49,16 @@ function config_clang()
         $LLVM_DIR
 }
 
+function build_clang()
+{
+    cd $CLANG_BUILD_DIR
+    make -j9
+}
+
+function install_clang()
+{
+    cd $CLANG_BUILD_DIR
+    make install
+}
+
 $1
