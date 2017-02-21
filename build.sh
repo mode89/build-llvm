@@ -17,6 +17,14 @@ LIBCXX_BUILD_DIR=$WORK_DIR/build-libcxx
 
 INSTALL_DIR=$WORK_DIR/install
 
+function clean_install()
+{
+    echo Cleaning installation folder ...
+    if [ -d $INSTALL_DIR ]; then
+        rm -r $INSTALL_DIR
+    fi
+}
+
 function clone_llvm()
 {
     echo Cloning llvm ...
