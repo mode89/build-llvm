@@ -82,6 +82,14 @@ function clone_libcxx()
     git checkout release_39
 }
 
+function clean_libcxx()
+{
+    echo Cleaning libcxx ...
+    if [ -d $LIBCXX_BUILD_DIR ]; then
+        rm -r $LIBCXX_BUILD_DIR
+    fi
+}
+
 for cmd in "$@"; do
     $cmd
 done

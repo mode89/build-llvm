@@ -1,4 +1,5 @@
 build-clang
+build-libcxx
 clang
 install
 libcxx
