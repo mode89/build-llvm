@@ -72,4 +72,6 @@ function clone_libcxx()
     git checkout release_39
 }
 
-$1
+for cmd in "$@"; do
+    $cmd
+done
