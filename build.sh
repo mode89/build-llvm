@@ -9,6 +9,10 @@ CLANG_REPO=http://llvm.org/git/clang.git
 CLANG_DIR=$WORK_DIR/clang
 CLANG_BUILD_DIR=$WORK_DIR/build-clang
 
+LIBCXX_REPO=http://llvm.org/git/libcxx.git
+LIBCXX_DIR=$WORK_DIR/libcxx
+LIBCXX_BUILD_DIR=$WORK_DIR/build-libcxx
+
 INSTALL_DIR=$WORK_DIR/install
 
 function clone_llvm()
@@ -59,6 +63,13 @@ function install_clang()
 {
     cd $CLANG_BUILD_DIR
     make install
+}
+
+function clone_libcxx()
+{
+    git clone $LIBCXX_REPO $LIBCXX_DIR
+    cd $LIBCXX_DIR
+    git checkout release_39
 }
 
 $1
