@@ -4,6 +4,7 @@ WORK_DIR=$(pwd)
 
 LINARO_DIR=/opt/linaro/gcc-linaro-arm-linux-gnueabi-2012.04-20120426_linux
 LINARO_VER=4.7.1
+ROOTFS=/opt/prosense/rootfs-dev/
 
 TARGET_TRIPLE=arm-linux-gnueabi
 
@@ -16,6 +17,7 @@ CLANG_BUILD_DIR=$WORK_DIR/build-clang
 
 COMPILER_RT_REPO=http://llvm.org/git/compiler-rt.git
 COMPILER_RT_DIR=$WORK_DIR/compiler-rt
+COMPILER_RT_BUILD_DIR=$WORK_DIR/build-compiler-rt
 
 LIBUNWIND_REPO=http://llvm.org/git/libunwind.git
 LIBUNWIND_DIR=$WORK_DIR/libunwind
@@ -102,6 +104,57 @@ function clone_compiler_rt()
     git clone $COMPILER_RT_REPO $COMPILER_RT_DIR
     cd $COMPILER_RT_DIR
     git checkout release_39
+}
+
+function clean_compiler_rt()
+{
+    echo Cleaning compiler-rt ...
+    if [ -d $COMPILER_RT_BUILD_DIR ]; then
+        rm -r $COMPILER_RT_BUILD_DIR
+    fi
+}
+
+function config_compiler_rt()
+{
+    echo Configuring compiler-rt ...
+    if [ ! -d $COMPILER_RT_BUILD_DIR ]; then
+        mkdir $COMPILER_RT_BUILD_DIR
+    fi
+    cd $COMPILER_RT_BUILD_DIR
+
+    LINARO=$LINARO_DIR
+    TRIPLE=$TARGET_TRIPLE
+    VER=$LINARO_VER
+
+    SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
+    ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=soft"
+
+    C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
+    CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
+    CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/ "
+    CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/$TRIPLE/ "
+
+    LINKER_FLAGS="-fuse-ld=$LINARO/bin/$TRIPLE-ld "
+    LINKER_FLAGS+="-B $LINARO/lib/gcc/$TRIPLE/$VER/ "
+    LINKER_FLAGS+="-L $LINARO/lib/gcc/$TRIPLE/$VER/ "
+    LINKER_FLAGS+="-L $LINARO/$TRIPLE/lib/ "
+
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
+        -DCMAKE_CROSSCOMPILING=TRUE \
+        -DCMAKE_C_COMPILER=$INSTALL_DIR/bin/clang \
+        -DCMAKE_C_FLAGS="$C_FLAGS" \
+        -DCMAKE_CXX_COMPILER=$INSTALL_DIR/bin/clang++ \
+        -DCMAKE_CXX_FLAGS="$CXX_FLAGS" \
+        -DCMAKE_EXE_LINKER_FLAGS="$LINKER_FLAGS" \
+        -DCMAKE_SHARED_LINKER_FLAGS="$LINKER_FLAGS" \
+        -DCMAKE_FIND_ROOT_PATH=$ROOTFS \
+        -DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
+        -DLLVM_TARGET_ARCH=ARM \
+        -DLLVM_TARGETS_TO_BUILD=ARM \
+        -DLLVM_EXTERNAL_COMPILER_RT_SOURCE_DIR=$COMPILER_RT_DIR \
+        $LLVM_DIR
 }
 
 function clone_libunwind()
