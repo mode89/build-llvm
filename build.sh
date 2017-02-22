@@ -20,6 +20,7 @@ LIBUNWIND_BUILD_DIR=$WORK_DIR/build-libunwind
 
 LIBCXXABI_REPO=http://llvm.org/git/libcxxabi.git
 LIBCXXABI_DIR=$WORK_DIR/libcxxabi
+LIBCXXABI_BUILD_DIR=$WORK_DIR/build-libcxxabi
 
 LIBCXX_REPO=http://llvm.org/git/libcxx.git
 LIBCXX_DIR=$WORK_DIR/libcxx
@@ -106,6 +107,64 @@ function clone_libcxxabi()
     git clone $LIBCXXABI_REPO $LIBCXXABI_DIR
     cd $LIBCXXABI_DIR
     git checkout release_39
+}
+
+function clean_libcxxabi()
+{
+    echo Cleaning libcxxabi ...
+    if [ -d $LIBCXXABI_BUILD_DIR ]; then
+        rm -r $LIBCXXABI_BUILD_DIR
+    fi
+}
+
+function config_libcxxabi()
+{
+    echo Configuring libcxxabi ...
+    if [ ! -d $LIBCXXABI_BUILD_DIR ]; then
+        mkdir $LIBCXXABI_BUILD_DIR
+    fi
+    cd $LIBCXXABI_BUILD_DIR
+
+    LINARO=$LINARO_DIR
+    TRIPLE=$TARGET_TRIPLE
+    VER=$LINARO_VER
+
+    SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
+    ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=soft"
+
+    C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
+    CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
+    CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/ "
+    CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/$TRIPLE/ "
+
+    LINKER_FLAGS="-fuse-ld=$LINARO/bin/$TRIPLE-ld "
+    LINKER_FLAGS+="-B $LINARO/lib/gcc/$TRIPLE/$VER/ "
+    LINKER_FLAGS+="-L $LINARO/lib/gcc/$TRIPLE/$VER/ "
+    LINKER_FLAGS+="-L $LINARO/$TRIPLE/lib/ "
+
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
+        -DCMAKE_C_COMPILER=$INSTALL_DIR/bin/clang \
+        -DCMAKE_C_FLAGS="$C_FLAGS" \
+        -DCMAKE_CXX_COMPILER=$INSTALL_DIR/bin/clang++ \
+        -DCMAKE_CXX_FLAGS="$CXX_FLAGS" \
+        -DCMAKE_EXE_LINKER_FLAGS="$LINKER_FLAGS" \
+        -DCMAKE_SHARED_LINKER_FLAGS="$LINKER_FLAGS" \
+        -DLLVM_TARGETS_TO_BUILD=ARM \
+        -DLLVM_INCLUDE_TESTS=OFF \
+        -DLLVM_INCLUDE_EXAMPLES=OFF \
+        -DLLVM_EXTERNAL_LIBCXXABI_SOURCE_DIR=$LIBCXXABI_DIR \
+        -DLIBCXXABI_LIBCXX_PATH=$LIBCXX_DIR \
+        -DLIBCXXABI_USE_LLVM_UNWINDER=ON \
+        $LLVM_DIR
+}
+
+function build_libcxxabi()
+{
+    echo Building libcxxabi ...
+    cd $LIBCXXABI_BUILD_DIR
+    make cxxabi
 }
 
 function clone_libcxx()
