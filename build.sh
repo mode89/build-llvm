@@ -224,6 +224,20 @@ function config_libunwind()
         $LLVM_DIR
 }
 
+function build_libunwind()
+{
+    echo Building libunwind ...
+    cd $LIBUNWIND_BUILD_DIR
+    make -j9 unwind
+}
+
+function install_libunwind()
+{
+    echo Installing libunwind ...
+    cd $LIBUNWIND_BUILD_DIR/projects/libunwind
+    make install
+}
+
 function clone_libcxxabi()
 {
     echo Cloning libcxxabi ...
