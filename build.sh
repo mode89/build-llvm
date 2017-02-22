@@ -15,6 +15,9 @@ CLANG_REPO=http://llvm.org/git/clang.git
 CLANG_DIR=$WORK_DIR/clang
 CLANG_BUILD_DIR=$WORK_DIR/build-clang
 
+LLD_REPO=http://llvm.org/git/lld.git
+LLD_DIR=$WORK_DIR/lld
+
 COMPILER_RT_REPO=http://llvm.org/git/compiler-rt.git
 COMPILER_RT_DIR=$WORK_DIR/compiler-rt
 COMPILER_RT_BUILD_DIR=$WORK_DIR/build-compiler-rt
@@ -96,6 +99,14 @@ function install_clang()
     echo Installing clang ...
     cd $CLANG_BUILD_DIR
     make install/strip
+}
+
+function clone_lld()
+{
+    echo Cloning lld ...
+    git clone $LLD_REPO $LLD_DIR
+    cd $LLD_DIR
+    git checkout release_39
 }
 
 function clone_compiler_rt()
