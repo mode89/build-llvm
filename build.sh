@@ -101,6 +101,35 @@ function clone_libunwind()
     git checkout release_39
 }
 
+function clean_libunwind()
+{
+    echo Cleaning libunwind ...
+    if [ -d $LIBUNWIND_BUILD_DIR ]; then
+        rm -r $LIBUNWIND_BUILD_DIR
+    fi
+}
+
+function config_libunwind()
+{
+    echo Configuring libunwind ...
+    if [ ! -d $LIBUNWIND_BUILD_DIR ]; then
+        mkdir $LIBUNWIND_BUILD_DIR
+    fi
+    cd $LIBUNWIND_BUILD_DIR
+
+    LINKER_FLAGS="-fuse-ld=$LINARO_DIR/bin/$TARGET_TRIPLE-ld "
+
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
+        -DCMAKE_C_COMPILER=$INSTALL_DIR/bin/clang \
+        -DCMAKE_CXX_COMPILER=$INSTALL_DIR/bin/clang++ \
+        -DCMAKE_EXE_LINKER_FLAGS=$LINKER_FLAGS \
+        -DCMAKE_SHARED_LINKER_FLAGS=$LINKER_FLAGS \
+        -DLLVM_EXTERNAL_LIBUNWIND_SOURCE_DIR=$LIBUNWIND_DIR \
+        $LLVM_DIR
+}
+
 function clone_libcxxabi()
 {
     echo Cloning libcxxabi ...
