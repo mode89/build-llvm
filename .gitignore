@@ -1,5 +1,6 @@
 build-*
 clang
+compiler-rt
 install
 libcxx
 libcxxabi

@@ -14,6 +14,9 @@ CLANG_REPO=http://llvm.org/git/clang.git
 CLANG_DIR=$WORK_DIR/clang
 CLANG_BUILD_DIR=$WORK_DIR/build-clang
 
+COMPILER_RT_REPO=http://llvm.org/git/compiler-rt.git
+COMPILER_RT_DIR=$WORK_DIR/compiler-rt
+
 LIBUNWIND_REPO=http://llvm.org/git/libunwind.git
 LIBUNWIND_DIR=$WORK_DIR/libunwind
 LIBUNWIND_BUILD_DIR=$WORK_DIR/build-libunwind
@@ -91,6 +94,14 @@ function install_clang()
     echo Installing clang ...
     cd $CLANG_BUILD_DIR
     make install/strip
+}
+
+function clone_compiler_rt()
+{
+    echo Cloning compiler-rt ...
+    git clone $COMPILER_RT_REPO $COMPILER_RT_DIR
+    cd $COMPILER_RT_DIR
+    git checkout release_39
 }
 
 function clone_libunwind()
