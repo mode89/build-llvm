@@ -303,7 +303,7 @@ function build_libcxxabi()
 {
     echo Building libcxxabi ...
     cd $LIBCXXABI_BUILD_DIR
-    make cxxabi
+    make -j9 cxxabi
 }
 
 function clone_libcxx()
