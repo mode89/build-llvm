@@ -14,6 +14,9 @@ CLANG_REPO=http://llvm.org/git/clang.git
 CLANG_DIR=$WORK_DIR/clang
 CLANG_BUILD_DIR=$WORK_DIR/build-clang
 
+LIBCXXABI_REPO=http://llvm.org/git/libcxxabi.git
+LIBCXXABI_DIR=$WORK_DIR/libcxxabi
+
 LIBCXX_REPO=http://llvm.org/git/libcxx.git
 LIBCXX_DIR=$WORK_DIR/libcxx
 LIBCXX_BUILD_DIR=$WORK_DIR/build-libcxx
@@ -83,6 +86,14 @@ function install_clang()
     echo Installing clang ...
     cd $CLANG_BUILD_DIR
     make install/strip
+}
+
+function clone_libcxxabi()
+{
+    echo Cloning libcxxabi ...
+    git clone $LIBCXXABI_REPO $LIBCXXABI_DIR
+    cd $LIBCXXABI_DIR
+    git checkout release_39
 }
 
 function clone_libcxx()
