@@ -82,7 +82,7 @@ function install_clang()
 {
     echo Installing clang ...
     cd $CLANG_BUILD_DIR
-    make install
+    make install/strip
 }
 
 function clone_libcxx()
