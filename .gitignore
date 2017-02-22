@@ -1,7 +1,7 @@
-build-clang
-build-libcxx
+build-*
 clang
 install
 libcxx
+libcxxabi
 libunwind
 llvm
