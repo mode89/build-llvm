@@ -306,6 +306,13 @@ function build_libcxxabi()
     make -j9 cxxabi
 }
 
+function install_libcxxabi()
+{
+    echo Installing libcxxabi ...
+    cd $LIBCXXABI_BUILD_DIR
+    make install-libcxxabi
+}
+
 function clone_libcxx()
 {
     echo Cloning libcxx ...
