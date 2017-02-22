@@ -14,6 +14,10 @@ CLANG_REPO=http://llvm.org/git/clang.git
 CLANG_DIR=$WORK_DIR/clang
 CLANG_BUILD_DIR=$WORK_DIR/build-clang
 
+LIBUNWIND_REPO=http://llvm.org/git/libunwind.git
+LIBUNWIND_DIR=$WORK_DIR/libunwind
+LIBUNWIND_BUILD_DIR=$WORK_DIR/build-libunwind
+
 LIBCXXABI_REPO=http://llvm.org/git/libcxxabi.git
 LIBCXXABI_DIR=$WORK_DIR/libcxxabi
 
@@ -86,6 +90,14 @@ function install_clang()
     echo Installing clang ...
     cd $CLANG_BUILD_DIR
     make install/strip
+}
+
+function clone_libunwind()
+{
+    echo Cloning libunwind ...
+    git clone $LIBUNWIND_REPO $LIBUNWIND_DIR
+    cd $LIBUNWIND_DIR
+    git checkout release_39
 }
 
 function clone_libcxxabi()
