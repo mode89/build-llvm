@@ -146,12 +146,14 @@ function config_libcxx()
 
 function build_libcxx()
 {
+    echo Building libcxx ...
     cd $LIBCXX_BUILD_DIR
     make -j9 cxx
 }
 
 function install_libcxx()
 {
+    echo Installing libcxx ...
     cd $LIBCXX_BUILD_DIR
     make install-libcxx
 }
