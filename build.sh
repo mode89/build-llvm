@@ -13,10 +13,9 @@ LLVM_DIR=$WORK_DIR/llvm
 
 CLANG_REPO=http://llvm.org/git/clang.git
 CLANG_DIR=$WORK_DIR/clang
-CLANG_BUILD_DIR=$WORK_DIR/build-clang
-
 LLD_REPO=http://llvm.org/git/lld.git
 LLD_DIR=$WORK_DIR/lld
+TOOLS_BUILD_DIR=$WORK_DIR/build-tools
 
 COMPILER_RT_REPO=http://llvm.org/git/compiler-rt.git
 COMPILER_RT_DIR=$WORK_DIR/compiler-rt
@@ -60,21 +59,21 @@ function clone_clang()
     git checkout release_39
 }
 
-function clean_clang()
+function clean_tools()
 {
-    echo Cleaning clang ...
-    if [ -d $CLANG_BUILD_DIR ]; then
-        rm -r $CLANG_BUILD_DIR
+    echo Cleaning tools ...
+    if [ -d $TOOLS_BUILD_DIR ]; then
+        rm -r $TOOLS_BUILD_DIR
     fi
 }
 
-function config_clang()
+function config_tools()
 {
-    echo Configuring clang ...
-    if [ ! -d $CLANG_BUILD_DIR ]; then
-        mkdir $CLANG_BUILD_DIR
+    echo Configuring tools ...
+    if [ ! -d $TOOLS_BUILD_DIR ]; then
+        mkdir $TOOLS_BUILD_DIR
     fi
-    cd $CLANG_BUILD_DIR
+    cd $TOOLS_BUILD_DIR
 
     cmake \
         -DCMAKE_BUILD_TYPE=Release \
@@ -84,20 +83,21 @@ function config_clang()
         -DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
         -DLLVM_TARGETS_TO_BUILD=ARM \
         -DLLVM_EXTERNAL_CLANG_SOURCE_DIR=$CLANG_DIR \
+        -DLLVM_EXTERNAL_LLD_SOURCE_DIR=$LLD_DIR \
         $LLVM_DIR
 }
 
-function build_clang()
+function build_tools()
 {
-    echo Building clang ...
-    cd $CLANG_BUILD_DIR
+    echo Building tools ...
+    cd $TOOLS_BUILD_DIR
     make -j9
 }
 
-function install_clang()
+function install_tools()
 {
-    echo Installing clang ...
-    cd $CLANG_BUILD_DIR
+    echo Installing tools ...
+    cd $TOOLS_BUILD_DIR
     make install/strip
 }
 
