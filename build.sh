@@ -375,8 +375,8 @@ function build_libcxx()
 function install_libcxx()
 {
     echo Installing libcxx ...
-    cd $LIBCXX_BUILD_DIR
-    make install-libcxx
+    cd $LIBCXX_BUILD_DIR/projects/libcxx
+    make install
 }
 
 function all()
