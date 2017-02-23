@@ -4,9 +4,10 @@ WORK_DIR=$(pwd)
 
 LINARO_DIR=/opt/linaro/gcc-linaro-arm-linux-gnueabi-2012.04-20120426_linux
 LINARO_VER=4.7.1
-ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=softfp"
 
 TARGET_TRIPLE=arm-linux-gnueabi
+ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=softfp"
+SYSROOT_FLAG="--sysroot=$LINARO_DIR/$TARGET_TRIPLE/libc"
 
 LLVM_REPO=http://llvm.org/git/llvm.git
 LLVM_DIR=$WORK_DIR/llvm
@@ -137,8 +138,6 @@ function config_compiler_rt()
     TRIPLE=$TARGET_TRIPLE
     VER=$LINARO_VER
 
-    SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
-
     C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/ "
@@ -193,8 +192,6 @@ function config_libunwind()
     LINARO=$LINARO_DIR
     TRIPLE=$TARGET_TRIPLE
     VER=$LINARO_VER
-
-    SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
 
     C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
@@ -262,8 +259,6 @@ function config_libcxxabi()
     LINARO=$LINARO_DIR
     TRIPLE=$TARGET_TRIPLE
     VER=$LINARO_VER
-
-    SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
 
     C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
@@ -336,8 +331,6 @@ function config_libcxx()
     LINARO=$LINARO_DIR
     TRIPLE=$TARGET_TRIPLE
     VER=$LINARO_VER
-
-    SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
 
     C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
