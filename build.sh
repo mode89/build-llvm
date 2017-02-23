@@ -79,6 +79,7 @@ function config_tools()
     cmake \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
+        -DLLVM_INSTALL_TOOLCHAIN_ONLY=ON \
         -DLLVM_INCLUDE_TESTS=OFF \
         -DLLVM_INCLUDE_EXAMPLES=OFF \
         -DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
