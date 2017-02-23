@@ -4,7 +4,6 @@ WORK_DIR=$(pwd)
 
 LINARO_DIR=/opt/linaro/gcc-linaro-arm-linux-gnueabi-2012.04-20120426_linux
 LINARO_VER=4.7.1
-ROOTFS=/opt/prosense/rootfs-dev/
 
 TARGET_TRIPLE=arm-linux-gnueabi
 
@@ -160,7 +159,6 @@ function config_compiler_rt()
         -DCMAKE_CXX_FLAGS="$CXX_FLAGS" \
         -DCMAKE_EXE_LINKER_FLAGS="$LINKER_FLAGS" \
         -DCMAKE_SHARED_LINKER_FLAGS="$LINKER_FLAGS" \
-        -DCMAKE_FIND_ROOT_PATH=$ROOTFS \
         -DLLVM_DEFAULT_TARGET_TRIPLE=$TARGET_TRIPLE \
         -DLLVM_TARGET_ARCH=ARM \
         -DLLVM_TARGETS_TO_BUILD=ARM \
