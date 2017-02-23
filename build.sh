@@ -1,6 +1,7 @@
 #!/bin/sh
 
 WORK_DIR=$(pwd)
+INSTALL_DIR=$WORK_DIR/install
 
 LINARO_DIR=/opt/linaro/gcc-linaro-arm-linux-gnueabi-2012.04-20120426_linux
 LINARO_VER=4.7.1
@@ -8,6 +9,7 @@ LINARO_VER=4.7.1
 TARGET_TRIPLE=arm-linux-gnueabi
 ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=softfp"
 SYSROOT_FLAG="--sysroot=$LINARO_DIR/$TARGET_TRIPLE/libc"
+FUSE_LD_LLD_FLAG="-fuse-ld=$INSTALL_DIR/bin/ld.lld"
 
 LLVM_REPO=http://llvm.org/git/llvm.git
 LLVM_DIR=$WORK_DIR/llvm
@@ -33,8 +35,6 @@ LIBCXXABI_BUILD_DIR=$WORK_DIR/build-libcxxabi
 LIBCXX_REPO=http://llvm.org/git/libcxx.git
 LIBCXX_DIR=$WORK_DIR/libcxx
 LIBCXX_BUILD_DIR=$WORK_DIR/build-libcxx
-
-INSTALL_DIR=$WORK_DIR/install
 
 function clean_install()
 {
@@ -143,7 +143,7 @@ function config_compiler_rt()
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/ "
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/$TRIPLE/ "
 
-    LINKER_FLAGS="-fuse-ld=$LINARO/bin/$TRIPLE-ld "
+    LINKER_FLAGS="$FUSE_LD_LLD_FLAG "
     LINKER_FLAGS+="-B $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/$TRIPLE/lib/ "
@@ -198,7 +198,7 @@ function config_libunwind()
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/ "
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/$TRIPLE/ "
 
-    LINKER_FLAGS="-fuse-ld=$LINARO/bin/$TRIPLE-ld "
+    LINKER_FLAGS="$FUSE_LD_LLD_FLAG "
     LINKER_FLAGS+="-B $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/$TRIPLE/lib/ "
@@ -265,7 +265,7 @@ function config_libcxxabi()
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/ "
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/$TRIPLE/ "
 
-    LINKER_FLAGS="-fuse-ld=$LINARO/bin/$TRIPLE-ld "
+    LINKER_FLAGS="$FUSE_LD_LLD_FLAG "
     LINKER_FLAGS+="-B $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/$TRIPLE/lib/ "
@@ -337,7 +337,7 @@ function config_libcxx()
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/ "
     CXX_FLAGS+="-I $LINARO/$TRIPLE/include/c++/$VER/$TRIPLE/ "
 
-    LINKER_FLAGS="-fuse-ld=$LINARO/bin/$TRIPLE-ld "
+    LINKER_FLAGS="$FUSE_LD_LLD_FLAG "
     LINKER_FLAGS+="-B $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/$TRIPLE/lib/ "
