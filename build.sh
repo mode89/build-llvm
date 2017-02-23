@@ -49,7 +49,7 @@ function clone_llvm()
     echo Cloning llvm ...
     git clone $LLVM_REPO $LLVM_DIR
     cd $LLVM_DIR
-    git checkout release_39
+    git checkout release_40
 }
 
 function clone_clang()
@@ -57,7 +57,7 @@ function clone_clang()
     echo Cloning clang ...
     git clone $CLANG_REPO $CLANG_DIR
     cd $CLANG_DIR
-    git checkout release_39
+    git checkout release_40
 }
 
 function clean_tools()
@@ -107,7 +107,7 @@ function clone_lld()
     echo Cloning lld ...
     git clone $LLD_REPO $LLD_DIR
     cd $LLD_DIR
-    git checkout release_39
+    git checkout release_40
 }
 
 function clone_compiler_rt()
