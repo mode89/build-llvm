@@ -374,6 +374,32 @@ function install_libcxx()
     make install-libcxx
 }
 
+function all()
+{
+    clone_llvm
+    clone_clang
+    clone_lld
+
+    config_tools
+    build_tools
+    install_tools
+
+    clone_libunwind
+    config_libunwind
+    build_libunwind
+    install_libunwind
+
+    clone_libcxxabi
+    config_libcxxabi
+    build_libcxxabi
+    install_libcxxabi
+
+    clone_libcxx
+    config_libcxx
+    build_libcxx
+    install_libcxx
+}
+
 for cmd in "$@"; do
     $cmd
 done
