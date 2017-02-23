@@ -4,6 +4,7 @@ WORK_DIR=$(pwd)
 
 LINARO_DIR=/opt/linaro/gcc-linaro-arm-linux-gnueabi-2012.04-20120426_linux
 LINARO_VER=4.7.1
+ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=softfp"
 
 TARGET_TRIPLE=arm-linux-gnueabi
 
@@ -137,7 +138,6 @@ function config_compiler_rt()
     VER=$LINARO_VER
 
     SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
-    ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=soft"
 
     C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
@@ -195,7 +195,6 @@ function config_libunwind()
     VER=$LINARO_VER
 
     SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
-    ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=soft"
 
     C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
@@ -265,7 +264,6 @@ function config_libcxxabi()
     VER=$LINARO_VER
 
     SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
-    ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=soft"
 
     C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
@@ -340,7 +338,6 @@ function config_libcxx()
     VER=$LINARO_VER
 
     SYSROOT_FLAG="--sysroot=$LINARO/$TRIPLE/libc"
-    ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=soft"
 
     C_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
     CXX_FLAGS="$SYSROOT_FLAG $ARCH_FLAGS "
