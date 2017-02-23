@@ -5,6 +5,7 @@ INSTALL_DIR=$WORK_DIR/install
 
 LINARO_DIR=/opt/linaro/gcc-linaro-arm-linux-gnueabi-2012.04-20120426_linux
 LINARO_VER=4.7.1
+JOBS="-j9"
 
 TARGET_TRIPLE=arm-linux-gnueabi
 ARCH_FLAGS="-march=armv7-a -mcpu=cortex-a9 -mfloat-abi=softfp"
@@ -93,7 +94,7 @@ function build_tools()
 {
     echo Building tools ...
     cd $TOOLS_BUILD_DIR
-    make -j9
+    make $JOBS
 }
 
 function install_tools()
@@ -223,7 +224,7 @@ function build_libunwind()
 {
     echo Building libunwind ...
     cd $LIBUNWIND_BUILD_DIR
-    make -j9 unwind
+    make $JOBS unwind
 }
 
 function install_libunwind()
@@ -295,7 +296,7 @@ function build_libcxxabi()
 {
     echo Building libcxxabi ...
     cd $LIBCXXABI_BUILD_DIR
-    make -j9 cxxabi
+    make $JOBS cxxabi
 }
 
 function install_libcxxabi()
@@ -369,7 +370,7 @@ function build_libcxx()
 {
     echo Building libcxx ...
     cd $LIBCXX_BUILD_DIR
-    make -j9 cxx
+    make $JOBS cxx
 }
 
 function install_libcxx()
