@@ -171,7 +171,7 @@ function clone_libunwind()
     echo Cloning libunwind ...
     git clone $LIBUNWIND_REPO $LIBUNWIND_DIR
     cd $LIBUNWIND_DIR
-    git checkout release_39
+    git checkout release_40
 }
 
 function clean_libunwind()
@@ -238,7 +238,7 @@ function clone_libcxxabi()
     echo Cloning libcxxabi ...
     git clone $LIBCXXABI_REPO $LIBCXXABI_DIR
     cd $LIBCXXABI_DIR
-    git checkout release_39
+    git checkout release_40
 }
 
 function clean_libcxxabi()
@@ -310,7 +310,7 @@ function clone_libcxx()
     echo Cloning libcxx ...
     git clone $LIBCXX_REPO $LIBCXX_DIR
     cd $LIBCXX_DIR
-    git checkout release_39
+    git checkout release_40
 }
 
 function clean_libcxx()
