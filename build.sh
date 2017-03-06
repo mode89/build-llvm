@@ -37,28 +37,41 @@ LIBCXX_REPO=http://llvm.org/git/libcxx.git
 LIBCXX_DIR=$WORK_DIR/libcxx
 LIBCXX_BUILD_DIR=$WORK_DIR/build-libcxx
 
+function exit_on_error()
+{
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+}
+
 function clean_install()
 {
     echo Cleaning installation folder ...
     if [ -d $INSTALL_DIR ]; then
         rm -r $INSTALL_DIR
     fi
+
+    exit_on_error
 }
 
 function clone_llvm()
 {
     echo Cloning llvm ...
     git clone $LLVM_REPO $LLVM_DIR
+    exit_on_error
     cd $LLVM_DIR
     git checkout release_40
+    exit_on_error
 }
 
 function clone_clang()
 {
     echo Cloning clang ...
     git clone $CLANG_REPO $CLANG_DIR
+    exit_on_error
     cd $CLANG_DIR
     git checkout release_40
+    exit_on_error
 }
 
 function clean_tools()
@@ -67,6 +80,7 @@ function clean_tools()
     if [ -d $TOOLS_BUILD_DIR ]; then
         rm -r $TOOLS_BUILD_DIR
     fi
+    exit_on_error
 }
 
 function config_tools()
@@ -88,6 +102,7 @@ function config_tools()
         -DLLVM_EXTERNAL_CLANG_SOURCE_DIR=$CLANG_DIR \
         -DLLVM_EXTERNAL_LLD_SOURCE_DIR=$LLD_DIR \
         $LLVM_DIR
+    exit_on_error
 }
 
 function build_tools()
@@ -95,6 +110,7 @@ function build_tools()
     echo Building tools ...
     cd $TOOLS_BUILD_DIR
     make $JOBS
+    exit_on_error
 }
 
 function install_tools()
@@ -102,22 +118,27 @@ function install_tools()
     echo Installing tools ...
     cd $TOOLS_BUILD_DIR
     make install/strip
+    exit_on_error
 }
 
 function clone_lld()
 {
     echo Cloning lld ...
     git clone $LLD_REPO $LLD_DIR
+    exit_on_error
     cd $LLD_DIR
     git checkout release_40
+    exit_on_error
 }
 
 function clone_compiler_rt()
 {
     echo Cloning compiler-rt ...
     git clone $COMPILER_RT_REPO $COMPILER_RT_DIR
+    exit_on_error
     cd $COMPILER_RT_DIR
     git checkout release_39
+    exit_on_error
 }
 
 function clean_compiler_rt()
@@ -126,6 +147,7 @@ function clean_compiler_rt()
     if [ -d $COMPILER_RT_BUILD_DIR ]; then
         rm -r $COMPILER_RT_BUILD_DIR
     fi
+    exit_on_error
 }
 
 function config_compiler_rt()
@@ -165,14 +187,17 @@ function config_compiler_rt()
         -DLLVM_TARGETS_TO_BUILD=ARM \
         -DLLVM_EXTERNAL_COMPILER_RT_SOURCE_DIR=$COMPILER_RT_DIR \
         $LLVM_DIR
+    exit_on_error
 }
 
 function clone_libunwind()
 {
     echo Cloning libunwind ...
     git clone $LIBUNWIND_REPO $LIBUNWIND_DIR
+    exit_on_error
     cd $LIBUNWIND_DIR
     git checkout release_40
+    exit_on_error
 }
 
 function clean_libunwind()
@@ -181,6 +206,7 @@ function clean_libunwind()
     if [ -d $LIBUNWIND_BUILD_DIR ]; then
         rm -r $LIBUNWIND_BUILD_DIR
     fi
+    exit_on_error
 }
 
 function config_libunwind()
@@ -218,6 +244,7 @@ function config_libunwind()
         -DLLVM_EXTERNAL_LIBUNWIND_SOURCE_DIR=$LIBUNWIND_DIR \
         -DLIBUNWIND_ENABLE_SHARED=OFF \
         $LLVM_DIR
+    exit_on_error
 }
 
 function build_libunwind()
@@ -225,6 +252,7 @@ function build_libunwind()
     echo Building libunwind ...
     cd $LIBUNWIND_BUILD_DIR
     make $JOBS unwind
+    exit_on_error
 }
 
 function install_libunwind()
@@ -232,14 +260,17 @@ function install_libunwind()
     echo Installing libunwind ...
     cd $LIBUNWIND_BUILD_DIR/projects/libunwind
     make install
+    exit_on_error
 }
 
 function clone_libcxxabi()
 {
     echo Cloning libcxxabi ...
     git clone $LIBCXXABI_REPO $LIBCXXABI_DIR
+    exit_on_error
     cd $LIBCXXABI_DIR
     git checkout release_40
+    exit_on_error
 }
 
 function clean_libcxxabi()
@@ -248,6 +279,7 @@ function clean_libcxxabi()
     if [ -d $LIBCXXABI_BUILD_DIR ]; then
         rm -r $LIBCXXABI_BUILD_DIR
     fi
+    exit_on_error
 }
 
 function config_libcxxabi()
@@ -290,6 +322,7 @@ function config_libcxxabi()
         -DLIBCXXABI_LIBUNWIND_PATH=$LIBUNWIND_DIR \
         -DLIBCXXABI_ENABLE_SHARED=OFF \
         $LLVM_DIR
+    exit_on_error
 }
 
 function build_libcxxabi()
@@ -297,6 +330,7 @@ function build_libcxxabi()
     echo Building libcxxabi ...
     cd $LIBCXXABI_BUILD_DIR
     make $JOBS cxxabi
+    exit_on_error
 }
 
 function install_libcxxabi()
@@ -304,14 +338,17 @@ function install_libcxxabi()
     echo Installing libcxxabi ...
     cd $LIBCXXABI_BUILD_DIR
     make install-libcxxabi
+    exit_on_error
 }
 
 function clone_libcxx()
 {
     echo Cloning libcxx ...
     git clone $LIBCXX_REPO $LIBCXX_DIR
+    exit_on_error
     cd $LIBCXX_DIR
     git checkout release_40
+    exit_on_error
 }
 
 function clean_libcxx()
@@ -320,6 +357,7 @@ function clean_libcxx()
     if [ -d $LIBCXX_BUILD_DIR ]; then
         rm -r $LIBCXX_BUILD_DIR
     fi
+    exit_on_error
 }
 
 function config_libcxx()
@@ -364,6 +402,7 @@ function config_libcxx()
         -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON \
         -DLIBCXX_ENABLE_EXPERIMENTAL_LIBRARY=OFF \
         $LLVM_DIR
+    exit_on_error
 }
 
 function build_libcxx()
@@ -371,6 +410,7 @@ function build_libcxx()
     echo Building libcxx ...
     cd $LIBCXX_BUILD_DIR
     make $JOBS cxx
+    exit_on_error
 }
 
 function install_libcxx()
@@ -378,6 +418,7 @@ function install_libcxx()
     echo Installing libcxx ...
     cd $LIBCXX_BUILD_DIR/projects/libcxx
     make install
+    exit_on_error
 }
 
 function all()
