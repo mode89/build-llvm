@@ -137,7 +137,7 @@ function clone_compiler_rt()
     git clone $COMPILER_RT_REPO $COMPILER_RT_DIR
     exit_on_error
     cd $COMPILER_RT_DIR
-    git checkout release_39
+    git checkout release_40
     exit_on_error
 }
 
