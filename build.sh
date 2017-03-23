@@ -171,6 +171,7 @@ function config_compiler_rt()
     LINKER_FLAGS+="-B $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/lib/gcc/$TRIPLE/$VER/ "
     LINKER_FLAGS+="-L $LINARO/$TRIPLE/lib/ "
+    LINKER_FLAGS+="-lpthread -lrt -ldl "
 
     cmake \
         -DCMAKE_BUILD_TYPE=Release \
