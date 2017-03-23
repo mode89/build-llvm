@@ -193,6 +193,22 @@ function config_compiler_rt()
     exit_on_error
 }
 
+function build_compiler_rt()
+{
+    echo Building compiler-rt ...
+    cd $COMPILER_RT_BUILD_DIR
+    make $JOBS compiler-rt
+    exit_on_error
+}
+
+function install_compiler_rt()
+{
+    echo Installing compiler-rt ...
+    cd $COMPILER_RT_BUILD_DIR/projects/compiler-rt
+    make install
+    exit_on_error
+}
+
 function clone_libunwind()
 {
     echo Cloning libunwind ...
