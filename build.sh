@@ -445,6 +445,7 @@ function all()
     clone_llvm
     clone_clang
     clone_lld
+    clone_compiler_rt
     clone_libunwind
     clone_libcxxabi
     clone_libcxx
@@ -452,6 +453,10 @@ function all()
     config_tools
     build_tools
     install_tools
+
+    config_compiler_rt
+    build_compiler_rt
+    install_compiler_rt
 
     config_libunwind
     build_libunwind
