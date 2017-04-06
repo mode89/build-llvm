@@ -37,6 +37,10 @@ LIBCXX_REPO=http://llvm.org/git/libcxx.git
 LIBCXX_DIR=$WORK_DIR/libcxx
 LIBCXX_BUILD_DIR=$WORK_DIR/build-libcxx
 
+LIBOMP_REPO=http://llvm.org/git/openmp.git
+LIBOMP_DIR=$WORK_DIR/libomp
+LIBOMP_BUILD_DIR=$WORK_DIR/build-libomp
+
 function exit_on_error()
 {
     if [ $? -ne 0 ]; then
@@ -440,6 +444,61 @@ function install_libcxx()
     exit_on_error
 }
 
+function clone_libomp()
+{
+    echo Cloning libomp ...
+    git clone $LIBOMP_REPO $LIBOMP_DIR
+    exit_on_error
+    cd $LIBOMP_DIR
+    git checkout release_40
+    exit_on_error
+}
+
+function clean_libomp()
+{
+    echo Cleaning libomp ...
+    if [ -d $LIBOMP_BUILD_DIR ]; then
+        rm -r $LIBOMP_BUILD_DIR
+    fi
+    exit_on_error
+}
+
+function config_libomp()
+{
+    echo Configuring libomp ...
+    if [ ! -d $LIBOMP_BUILD_DIR ]; then
+        mkdir $LIBOMP_BUILD_DIR
+    fi
+    cd $LIBOMP_BUILD_DIR
+
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
+        -DCMAKE_C_COMPILER=$LINARO_DIR/bin/$TARGET_TRIPLE-gcc \
+        -DCMAKE_CXX_COMPILER=$LINARO_DIR/bin/$TARGET_TRIPLE-g++ \
+        -DLIBOMP_ARCH=arm \
+        -DLIBOMP_LIB_TYPE=normal \
+        -DLIBOMP_ENABLE_SHARED=OFF \
+        $LIBOMP_DIR/runtime
+    exit_on_error
+}
+
+function build_libomp()
+{
+    echo Building libomp ...
+    cd $LIBOMP_BUILD_DIR
+    make $JOBS
+    exit_on_error
+}
+
+function install_libomp()
+{
+    echo Installing libomp ...
+    cd $LIBOMP_BUILD_DIR
+    make install/strip
+    exit_on_error
+}
+
 function all()
 {
     clone_llvm
@@ -449,6 +508,7 @@ function all()
     clone_libunwind
     clone_libcxxabi
     clone_libcxx
+    clone_libomp
 
     config_tools
     build_tools
@@ -469,6 +529,10 @@ function all()
     config_libcxx
     build_libcxx
     install_libcxx
+
+    config_libomp
+    build_libomp
+    install_libomp
 }
 
 for cmd in "$@"; do

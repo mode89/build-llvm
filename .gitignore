@@ -4,6 +4,7 @@ compiler-rt
 install
 libcxx
 libcxxabi
+libomp
 libunwind
 lld
 llvm
