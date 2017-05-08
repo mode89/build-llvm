@@ -486,7 +486,7 @@ function config_libomp()
         -DCMAKE_CXX_COMPILER=$LINARO_DIR/bin/$TARGET_TRIPLE-g++ \
         -DLIBOMP_ARCH=arm \
         -DLIBOMP_LIB_TYPE=normal \
-        -DLIBOMP_ENABLE_SHARED=OFF \
+        -DLIBOMP_ENABLE_SHARED=ON \
         $LIBOMP_DIR/runtime
     exit_on_error
 }
