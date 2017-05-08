@@ -1,0 +1,16 @@
+diff --git a/lib/asan/CMakeLists.txt b/lib/asan/CMakeLists.txt
+index 5ac5708..9b32f0a 100644
+--- a/lib/asan/CMakeLists.txt
++++ b/lib/asan/CMakeLists.txt
+@@ -168,9 +168,9 @@ else()
+                                     EXTRA asan.syms.extra)
+       set(VERSION_SCRIPT_FLAG
+            -Wl,--version-script,${CMAKE_CURRENT_BINARY_DIR}/clang_rt.asan-dynamic-${arch}.vers)
+-      set_source_files_properties(
++      set_property(SOURCE
+         ${CMAKE_CURRENT_BINARY_DIR}/dummy.cc
+-        PROPERTIES
++        APPEND PROPERTY
+         OBJECT_DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/clang_rt.asan-dynamic-${arch}.vers)
+     else()
+       set(VERSION_SCRIPT_FLAG)

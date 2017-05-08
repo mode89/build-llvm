@@ -154,6 +154,14 @@ function clean_compiler_rt()
     exit_on_error
 }
 
+function patch_compiler_rt()
+{
+    echo Patching compiler-rt ...
+    cd $COMPILER_RT_DIR
+    git apply "$WORK_DIR/compiler-rt-cmake-dummy-properties.patch"
+    exit_on_error
+}
+
 function config_compiler_rt()
 {
     echo Configuring compiler-rt ...
@@ -514,6 +522,7 @@ function all()
     build_tools
     install_tools
 
+    patch_compiler_rt
     config_compiler_rt
     build_compiler_rt
     install_compiler_rt
